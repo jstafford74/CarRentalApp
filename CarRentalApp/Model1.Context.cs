@@ -13,10 +13,10 @@ namespace CarRentalApp
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class car_rentalEntities : DbContext
+    public partial class CarRentalEntities : DbContext
     {
-        public car_rentalEntities()
-            : base("name=car_rentalEntities")
+        public CarRentalEntities()
+            : base("name=CarRentalEntities")
         {
         }
     
@@ -27,5 +27,8 @@ namespace CarRentalApp
     
         public virtual DbSet<car_rentals> car_rentals { get; set; }
         public virtual DbSet<car_types> car_types { get; set; }
+        public virtual DbSet<role> roles { get; set; }
+        public virtual DbSet<user_roles> user_roles { get; set; }
+        public virtual DbSet<user> users { get; set; }
     }
 }

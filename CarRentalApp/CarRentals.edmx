@@ -1,0 +1,304 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="CarRentalModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="car_rentals">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="customer_name" Type="nchar" MaxLength="100" />
+          <Property Name="date_rented" Type="datetime" />
+          <Property Name="date_returned" Type="datetime" />
+          <Property Name="cost" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="car_type_id" Type="int" />
+        </EntityType>
+        <EntityType Name="car_types">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="make" Type="nchar" MaxLength="50" />
+          <Property Name="model" Type="nchar" MaxLength="50" />
+          <Property Name="vin" Type="nchar" MaxLength="50" />
+          <Property Name="license_plate_number" Type="nchar" MaxLength="50" />
+          <Property Name="year" Type="int" />
+        </EntityType>
+        <EntityType Name="roles">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nchar" MaxLength="50" />
+          <Property Name="short_name" Type="nchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="user_roles">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user_id" Type="int" />
+          <Property Name="role_id" Type="int" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="username" Type="nchar" MaxLength="50" Nullable="false" />
+          <Property Name="password" Type="nchar" MaxLength="100" Nullable="false" />
+          <Property Name="is_active" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_car_rentals_car_types">
+          <End Role="car_types" Type="Self.car_types" Multiplicity="0..1" />
+          <End Role="car_rentals" Type="Self.car_rentals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="car_types">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="car_rentals">
+              <PropertyRef Name="car_type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_user_roles_roles">
+          <End Role="roles" Type="Self.roles" Multiplicity="0..1" />
+          <End Role="user_roles" Type="Self.user_roles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="roles">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user_roles">
+              <PropertyRef Name="role_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_user_roles_users">
+          <End Role="users" Type="Self.users" Multiplicity="0..1" />
+          <End Role="user_roles" Type="Self.user_roles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user_roles">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CarRentalModelStoreContainer">
+          <EntitySet Name="car_rentals" EntityType="Self.car_rentals" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="car_types" EntityType="Self.car_types" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="roles" EntityType="Self.roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user_roles" EntityType="Self.user_roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_car_rentals_car_types" Association="Self.FK_car_rentals_car_types">
+            <End Role="car_types" EntitySet="car_types" />
+            <End Role="car_rentals" EntitySet="car_rentals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_user_roles_roles" Association="Self.FK_user_roles_roles">
+            <End Role="roles" EntitySet="roles" />
+            <End Role="user_roles" EntitySet="user_roles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_user_roles_users" Association="Self.FK_user_roles_users">
+            <End Role="users" EntitySet="users" />
+            <End Role="user_roles" EntitySet="user_roles" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CarRentalModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="car_rentals">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="customer_name" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="date_rented" Type="DateTime" Precision="3" />
+          <Property Name="date_returned" Type="DateTime" Precision="3" />
+          <Property Name="cost" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="car_type_id" Type="Int32" />
+          <NavigationProperty Name="car_types" Relationship="Self.FK_car_rentals_car_types" FromRole="car_rentals" ToRole="car_types" />
+        </EntityType>
+        <EntityType Name="car_types">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="make" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="model" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="vin" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="license_plate_number" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="year" Type="Int32" />
+          <NavigationProperty Name="car_rentals" Relationship="Self.FK_car_rentals_car_types" FromRole="car_types" ToRole="car_rentals" />
+        </EntityType>
+        <EntityType Name="role">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="short_name" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="user_roles" Relationship="Self.FK_user_roles_roles" FromRole="roles" ToRole="user_roles" />
+        </EntityType>
+        <EntityType Name="user_roles">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_id" Type="Int32" />
+          <Property Name="role_id" Type="Int32" />
+          <NavigationProperty Name="role" Relationship="Self.FK_user_roles_roles" FromRole="user_roles" ToRole="roles" />
+          <NavigationProperty Name="user" Relationship="Self.FK_user_roles_users" FromRole="user_roles" ToRole="users" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="100" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="is_active" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="user_roles" Relationship="Self.FK_user_roles_users" FromRole="users" ToRole="user_roles" />
+        </EntityType>
+        <Association Name="FK_car_rentals_car_types">
+          <End Role="car_types" Type="Self.car_types" Multiplicity="0..1" />
+          <End Role="car_rentals" Type="Self.car_rentals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="car_types">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="car_rentals">
+              <PropertyRef Name="car_type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_user_roles_roles">
+          <End Role="roles" Type="Self.role" Multiplicity="0..1" />
+          <End Role="user_roles" Type="Self.user_roles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="roles">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user_roles">
+              <PropertyRef Name="role_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_user_roles_users">
+          <End Role="users" Type="Self.user" Multiplicity="0..1" />
+          <End Role="user_roles" Type="Self.user_roles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user_roles">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CarRentalEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="car_rentals" EntityType="Self.car_rentals" />
+          <EntitySet Name="car_types" EntityType="Self.car_types" />
+          <EntitySet Name="roles" EntityType="Self.role" />
+          <EntitySet Name="user_roles" EntityType="Self.user_roles" />
+          <EntitySet Name="users" EntityType="Self.user" />
+          <AssociationSet Name="FK_car_rentals_car_types" Association="Self.FK_car_rentals_car_types">
+            <End Role="car_types" EntitySet="car_types" />
+            <End Role="car_rentals" EntitySet="car_rentals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_user_roles_roles" Association="Self.FK_user_roles_roles">
+            <End Role="roles" EntitySet="roles" />
+            <End Role="user_roles" EntitySet="user_roles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_user_roles_users" Association="Self.FK_user_roles_users">
+            <End Role="users" EntitySet="users" />
+            <End Role="user_roles" EntitySet="user_roles" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CarRentalModelStoreContainer" CdmEntityContainer="CarRentalEntities">
+          <EntitySetMapping Name="car_rentals">
+            <EntityTypeMapping TypeName="CarRentalModel.car_rentals">
+              <MappingFragment StoreEntitySet="car_rentals">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="customer_name" ColumnName="customer_name" />
+                <ScalarProperty Name="date_rented" ColumnName="date_rented" />
+                <ScalarProperty Name="date_returned" ColumnName="date_returned" />
+                <ScalarProperty Name="cost" ColumnName="cost" />
+                <ScalarProperty Name="car_type_id" ColumnName="car_type_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="car_types">
+            <EntityTypeMapping TypeName="CarRentalModel.car_types">
+              <MappingFragment StoreEntitySet="car_types">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="make" ColumnName="make" />
+                <ScalarProperty Name="model" ColumnName="model" />
+                <ScalarProperty Name="vin" ColumnName="vin" />
+                <ScalarProperty Name="license_plate_number" ColumnName="license_plate_number" />
+                <ScalarProperty Name="year" ColumnName="year" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="roles">
+            <EntityTypeMapping TypeName="CarRentalModel.role">
+              <MappingFragment StoreEntitySet="roles">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="short_name" ColumnName="short_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user_roles">
+            <EntityTypeMapping TypeName="CarRentalModel.user_roles">
+              <MappingFragment StoreEntitySet="user_roles">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="role_id" ColumnName="role_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="CarRentalModel.user">
+              <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="is_active" ColumnName="is_active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

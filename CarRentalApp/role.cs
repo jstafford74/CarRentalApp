@@ -12,22 +12,19 @@ namespace CarRentalApp
     using System;
     using System.Collections.Generic;
     
-    public partial class car_types
+    public partial class role
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public car_types()
+        public role()
         {
-            this.car_rentals = new HashSet<car_rentals>();
+            this.user_roles = new HashSet<user_roles>();
         }
     
         public int id { get; set; }
-        public string make { get; set; }
-        public string model { get; set; }
-        public string vin { get; set; }
-        public string license_plate_number { get; set; }
-        public Nullable<int> year { get; set; }
+        public string name { get; set; }
+        public string short_name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<car_rentals> car_rentals { get; set; }
+        public virtual ICollection<user_roles> user_roles { get; set; }
     }
 }
